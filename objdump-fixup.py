@@ -191,9 +191,8 @@ def create_labels(fixup_line_list):
             label_counter+=1
             label_obj = LabelName(line.get_branch_target(), target, label_name)
             label_absolute_dict[target] = label_obj
-        # end else 
-        line.set_branch_target_local_label(label_obj)
         # end if
+        line.set_branch_target_local_label(label_obj)
     # end for
 
     # as a convenience we'd like the labels to be named
