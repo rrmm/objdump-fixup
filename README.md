@@ -29,6 +29,6 @@ $ objdump -d [file] | objdump-fixup.py | less
 Tips
 ----
 - c++filt can be added to the pipeline to demangle names
-- objdump can take the '--disassembly=' option to specify only a function from the object file to be output.  Note that the name is mangled.
+- objdump can take the '--disassemble=' option to specify only a function from the object file to be output.  Note that the name is mangled.
 - objdump defaults to AT&T syntax, but -Mintel will output intel syntax
 - objdump can intersperse the source with the -S flag
