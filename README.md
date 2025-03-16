@@ -21,11 +21,20 @@ the local label is inserted before the appropriate address:
 Usage
 -----
 ````
-$ objdump -d [file] | objdump-fixup.py | less
-````
-- 'objdump-fixup.py -na' will remove the leading addresses for each line.
-- 'objdump-fixup.py -h' will print the usage.
+Usage:
+	objdump-fixup.py [options]
 
+Options:
+	-na		   do not display the address
+	-nm		   do not display the machine code
+	-nam		  do not display the address or the machine code
+	-h, --help	display this help and exit
+
+Filters the output from objdump to add local labels to the disassembly.
+
+    $ objdump -d [execfile] | objdump-fixup.py
+
+````
 Tips
 ----
 - c++filt can be added to the pipeline to demangle names
