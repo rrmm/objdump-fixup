@@ -25,9 +25,9 @@ Usage:
 	objdump-fixup.py [options]
 
 Options:
-	-na		   do not display the address
-	-nm		   do not display the machine code
-	-nam		  do not display the address or the machine code
+	-na		do not display the address
+	-nm		do not display the machine code
+	-nam		do not display the address or the machine code
 	-h, --help	display this help and exit
 
 Filters the output from objdump to add local labels to the disassembly.
