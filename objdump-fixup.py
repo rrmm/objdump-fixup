@@ -21,7 +21,7 @@ class LabelName:
     def set_labelname(self, name):
         self.labelname = name
     # end def
-    
+
     def get_labelname(self):
         return self.labelname
     # end def
@@ -37,10 +37,10 @@ class NoCodeLine:
         self.line = line
     # end def
 
-    def get_line(self, no_address_column):
+    def get_line(self):
         return self.line
     # end if
-    
+
     def __repr__(self):
         return f"NoCodeLine<{self.line}>"
     #end def
@@ -59,7 +59,7 @@ class CodeLine:
         self.disassembly = match.group(3)
         self.branch_target_match = branch_target_match
         if branch_target_match:
-            self.branch_absolute_target = int(branch_target_match.group(1),16)            
+            self.branch_absolute_target = int(branch_target_match.group(1),16)
             self.branch_target_section = branch_target_match.group(2)
             self.branch_target_offset = int(branch_target_match.group(3),16)
         # end if
@@ -73,14 +73,14 @@ class CodeLine:
 
     def get_branch_absolute_target(self):
         return self.branch_absolute_target
-    # end def    
-    
+    # end def
+
     # set a label for the target to an object fo the class LabelName
     def set_branch_target_local_label(self, label):
         self.branch_target_label = label
     # end def_
 
-    def get_line(self, no_address_column=False):
+    def get_line(self):
         if self.branch_target_label:
             # switch the absolute address with the label
             branch_target_re = r"(%x) (<[A-Za-z0-9_@]+.0x[0-9A-Fa-f]+>)"%self.branch_absolute_target
@@ -90,12 +90,9 @@ class CodeLine:
         else:
             res = self.line
         # end if
-        if (no_address_column):
-            (_, res) = res.split(":", 1)
-        # end if
         return res
     # end def
-    
+
     def __repr__(self):
         if self.branch_target_label:
             return f"CodeLine<{self.addr:x} {self.code} {self.disassembly} {self.branch_target_label}>";
@@ -117,10 +114,10 @@ class StartLine:
         self.name = match.group(2)
     # end def
 
-    def get_line(self, no_address_column):
+    def get_line(self):
         return self.line
     # end def
-    
+
     def __repr__(self):
         return f"StartLine<{self.addr:x} {self.name}>";
     # end def
@@ -140,11 +137,11 @@ def read_input_from_stdin():
     # might have to modify them later if errors are found
     function_start_re = re.compile(r"([0-9A-Fa-f]+) <([A-Za-z0-9_@.\-]+)>:")
     regular_code_re = re.compile(r"([ ]*[0-9A-Fa-f]+):\t([0-9A-Fa-f ]*)\t?(.*)")
-    
+
     # this will look something like <name+0x16> etc
     branch_target_re = re.compile(r".* ([0-9A-Fa-f]+) <([A-Za-z0-9_@]+).?(0x[0-9A-Fa-f]+)>")
 
-    
+
     for line in sys.stdin.readlines():
 
         m = regular_code_re.match(line)
@@ -168,7 +165,7 @@ def read_input_from_stdin():
         # end if
 
         output_lines.append(NoCodeLine(line))
-        
+
     # end for
 
     return (output_lines, fixup_line_list)
@@ -179,10 +176,9 @@ def create_labels(fixup_line_list):
     # labels indexed by absolute target address
     label_absolute_dict = {}
     label_counter = 0
-    
+
     # assign labels to those lines that need fixup
     for line in fixup_line_list:
-        
         target = line.get_branch_absolute_target()
         if target in label_absolute_dict:
             label_obj = label_absolute_dict[target]
@@ -197,9 +193,9 @@ def create_labels(fixup_line_list):
 
     # as a convenience we'd like the labels to be named
     # monotonically increasing by absolute address so we'll sort and rename them.
-    
+
     label_absolute_list = list(label_absolute_dict.values())
-    
+
     label_absolute_list.sort(key=lambda x: x.absolute_target)
     label_counter  = 0
     for label_obj in label_absolute_list:
@@ -217,18 +213,49 @@ def istypeofclass(a, klass):
 def output_fixed_listing(output_lines, label_absolute_dict, output_options):
 
     for line in output_lines:
-
-        # a label can only occur before a codeline
-        if istypeofclass(line, CodeLine):
+        if istypeofclass(line, NoCodeLine):
+            if not output_options["suppress_non_code"]:
+                print (line.get_line(), end="")
+            # end if
+        elif istypeofclass(line, CodeLine):
+            # check for a label at this address...should only happen at code
             current_address = line.addr;
             if current_address in label_absolute_dict:
                 abs_label = label_absolute_dict[current_address]
-                print (f"{abs_label}:")            
+                print (f"{abs_label}:")
             # end if
-        # end if
 
-        if not (output_options["suppress_non_code"] and istypeofclass(line, NoCodeLine)):
-            print (line.get_line(output_options["no_address_column"]), end="")
+            line_txt = line.get_line()
+
+            tab_split = line_txt.split("\t")
+            # if there are too many machine code bytes to fit in the column
+            # in one line, objdump adds another line with no third column
+            # mnemonics, if this happens add another empty item to the
+            # tabsplit, so we can handle all lines the same way
+            if (len(tab_split) == 2):
+                tab_split.append("")
+            # end if
+
+            if (output_options["no_address_column"] and
+                output_options["no_machine_column"]):
+                line_txt = "\t" + tab_split[2]
+            elif output_options["no_address_column"]:
+                line_txt = "\t" + tab_split[1] + "\t" + tab_split[2]
+            elif output_options["no_machine_column"]:
+                line_txt = tab_split[0] + "\t" + tab_split[2]
+            # end if
+
+            # this catches the empty strings from lines that may have
+            # only had a machine code column
+            if (line_txt):
+                print(line_txt, end="")
+            # end if
+        elif istypeofclass(line, StartLine):
+            line_txt = line.get_line()
+            #line_txt=f"{line.addr:x} {line.name}:\n"
+            print (line_txt, end="")
+        else:
+            print("unknown line type")
         # end if
     # end for
 # end def output_fixed_listing
@@ -237,15 +264,17 @@ def output_fixed_listing(output_lines, label_absolute_dict, output_options):
 def usage():
     name = os.path.basename(sys.argv[0])
     print("""
-Usage: 
+Usage:
 \t%s [options]
 
 Options:
-\t-na\t\tdo not display the address column in the listing
+\t-na\t\tdo not display the address
+\t-nm\t\tdo not display the machine code
+\t-nam\t\tdo not display the address or the machine code
 \t-h, --help\tdisplay this help and exit
 
-Filters the output from objdump to add local labels to the disassembly.  
-    
+Filters the output from objdump to add local labels to the disassembly.
+
     $ objdump -d [execfile] | %s
 """%(name, name))
 # end def
@@ -256,17 +285,28 @@ if __name__ == "__main__":
 
     output_options = {}
     output_options["suppress_non_code"] = False
-    
+
     if "--help" in sys.argv or "-h" in sys.argv:
         usage()
         sys.exit()
     # end if
-    
+
+    output_options["no_address_column"]=False
+    output_options["no_machine_column"]=False
+
     if "-na" in sys.argv:
         output_options["no_address_column"]=True
-    else:
-        output_options["no_address_column"]=False
     # end if
+
+    if "-nm" in sys.argv:
+        output_options["no_machine_column"]=True
+    # end if
+
+    if "-nam" in sys.argv:
+        output_options["no_address_column"]=True
+        output_options["no_machine_column"]=True
+    # end if
+
 
     (output_lines, fixup_line_list) = read_input_from_stdin()
     label_absolute_dict = create_labels(fixup_line_list)
