@@ -32,7 +32,7 @@ Options:
 
 Filters the output from objdump to add local labels to the disassembly.
 
-    $ objdump -d [execfile] | objdump-fixup.py
+    $ objdump -d objfile | objdump-fixup.py
 
 ````
 Tips
