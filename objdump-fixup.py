@@ -206,18 +206,14 @@ def create_labels(fixup_line_list):
     return label_absolute_dict
 # end def create labels
 
-def istypeofclass(a, klass):
-    return type(a).__name__ == klass.__name__
-# end def
-
 def output_fixed_listing(output_lines, label_absolute_dict, output_options):
 
     for line in output_lines:
-        if istypeofclass(line, NoCodeLine):
+        if isinstance(line, NoCodeLine):
             if not output_options["suppress_non_code"]:
                 print (line.get_line(), end="")
             # end if
-        elif istypeofclass(line, CodeLine):
+        elif isinstance(line, CodeLine):
             # check for a label at this address...should only happen at code
             current_address = line.addr;
             if current_address in label_absolute_dict:
@@ -250,7 +246,7 @@ def output_fixed_listing(output_lines, label_absolute_dict, output_options):
             if (line_txt):
                 print(line_txt, end="")
             # end if
-        elif istypeofclass(line, StartLine):
+        elif isinstance(line, StartLine):
             line_txt = line.get_line()
             #line_txt=f"{line.addr:x} {line.name}:\n"
             print (line_txt, end="")
