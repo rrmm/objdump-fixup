@@ -1,0 +1,83 @@
+12c12
+<     1012:	74 02                	je     1016 <_init+0x16>
+---
+>     1012:	74 02                	je     .L0000 <_init+0x16> 1016
+13a14
+> .L0000:
+20,21c21,23
+<     1020:	ff 35 92 2f 00 00    	push   0x2f92(%rip)        # 3fb8 <_GLOBAL_OFFSET_TABLE_+0x8>
+<     1026:	f2 ff 25 93 2f 00 00 	bnd jmp *0x2f93(%rip)        # 3fc0 <_GLOBAL_OFFSET_TABLE_+0x10>
+---
+> .L0001:
+>     1020:	ff 35 92 2f 00 00    	push   0x2f92(%rip)        # .L0012 <_GLOBAL_OFFSET_TABLE_+0x8> 3fb8
+>     1026:	f2 ff 25 93 2f 00 00 	bnd jmp *0x2f93(%rip)        # .L0013 <_GLOBAL_OFFSET_TABLE_+0x10> 3fc0
+25c27
+<     1039:	f2 e9 e1 ff ff ff    	bnd jmp 1020 <_init+0x20>
+---
+>     1039:	f2 e9 e1 ff ff ff    	bnd jmp .L0001 <_init+0x20> 1020
+29c31
+<     1049:	f2 e9 d1 ff ff ff    	bnd jmp 1020 <_init+0x20>
+---
+>     1049:	f2 e9 d1 ff ff ff    	bnd jmp .L0001 <_init+0x20> 1020
+74c76
+<     10c1:	74 15                	je     10d8 <deregister_tm_clones+0x28>
+---
+>     10c1:	74 15                	je     .L0002 <deregister_tm_clones+0x28> 10d8
+77c79
+<     10cd:	74 09                	je     10d8 <deregister_tm_clones+0x28>
+---
+>     10cd:	74 09                	je     .L0002 <deregister_tm_clones+0x28> 10d8
+79a82
+> .L0002:
+92c95
+<     1102:	74 14                	je     1118 <register_tm_clones+0x38>
+---
+>     1102:	74 14                	je     .L0003 <register_tm_clones+0x38> 1118
+95c98
+<     110e:	74 08                	je     1118 <register_tm_clones+0x38>
+---
+>     110e:	74 08                	je     .L0003 <register_tm_clones+0x38> 1118
+97a101
+> .L0003:
+104c108
+<     112b:	75 2b                	jne    1158 <__do_global_dtors_aux+0x38>
+---
+>     112b:	75 2b                	jne    .L0005 <__do_global_dtors_aux+0x38> 1158
+109c113
+<     1139:	74 0c                	je     1147 <__do_global_dtors_aux+0x27>
+---
+>     1139:	74 0c                	je     .L0004 <__do_global_dtors_aux+0x27> 1147
+111a116
+> .L0004:
+116a122
+> .L0005:
+131c137
+<     117c:	7f 07                	jg     1185 <fib+0x1c>
+---
+>     117c:	7f 07                	jg     .L0006 <fib+0x1c> 1185
+133c139,140
+<     1183:	eb 11                	jmp    1196 <fib+0x2d>
+---
+>     1183:	eb 11                	jmp    .L0007 <fib+0x2d> 1196
+> .L0006:
+138a146
+> .L0007:
+154c162
+<     11bc:	48 8d 05 41 0e 00 00 	lea    0xe41(%rip),%rax        # 2004 <_IO_stdin_used+0x4>
+---
+>     11bc:	48 8d 05 41 0e 00 00 	lea    0xe41(%rip),%rax        # .L0010 <_IO_stdin_used+0x4> 2004
+171c179
+<     11f0:	48 8d 05 23 0e 00 00 	lea    0xe23(%rip),%rax        # 201a <_IO_stdin_used+0x1a>
+---
+>     11f0:	48 8d 05 23 0e 00 00 	lea    0xe23(%rip),%rax        # .L0011 <_IO_stdin_used+0x1a> 201a
+175c183,184
+<     1206:	eb 23                	jmp    122b <main+0x58>
+---
+>     1206:	eb 23                	jmp    .L0009 <main+0x58> 122b
+> .L0008:
+185a195
+> .L0009:
+188c198
+<     1231:	7c d5                	jl     1208 <main+0x35>
+---
+>     1231:	7c d5                	jl     .L0008 <main+0x35> 1208

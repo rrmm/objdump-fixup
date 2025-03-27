@@ -234,11 +234,23 @@ def output_fixed_listing(output_lines, label_absolute_dict, output_options):
 
             if (output_options["no_address_column"] and
                 output_options["no_machine_column"]):
-                line_txt = "\t" + tab_split[2]
+                if (tab_split[2] == ''):
+                    line_txt = ""
+                else:
+                    line_txt = "\t" + tab_split[2]
+                # end if
             elif output_options["no_address_column"]:
-                line_txt = "\t" + tab_split[1] + "\t" + tab_split[2]
+                if (tab_split[2] == ''):
+                    line_txt = "\t" + tab_split[1]
+                else:
+                    line_txt = "\t" + tab_split[1] + "\t" + tab_split[2]
+                # end if
             elif output_options["no_machine_column"]:
-                line_txt = tab_split[0] + "\t" + tab_split[2]
+                if (tab_split[2] == ''):
+                    line_txt = ""
+                else:
+                    line_txt = tab_split[0] + "\t" + tab_split[2]
+                # end if
             # end if
 
             # this catches the empty strings from lines that may have

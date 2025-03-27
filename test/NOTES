@@ -1,0 +1,25 @@
+Assuming the current system has a C compiler and make, run,
+
+         $ make
+
+to build and create output.
+
+'testing-od-output' and 'testing-od-fixup-output' are the only outputs
+that are directly comparable.  'diffs' contain the differences between
+the two files.
+
+'diffs.example' is the successful result from a run on an x86-64 host.
+
+The only differences should be:
+    1. .LXXX: labels
+    2. jmp and branch instructions that target a label
+    3. instructions that objdump adds a '#' comment to, where the
+       comment includes an address+offset.  The target label may
+       not exist in the disassembly.
+
+The fixed-up output files will have more lines compared to the
+original objdump output due to the insertion of the labels.  The
+fixed-up output with the '-nm', or '-nam' options will have slightly
+fewer lines than the fixed-up output because of removal of lines with
+only machine code, but without any mnemonics.
+
