@@ -23,3 +23,9 @@ fixed-up output with the '-nm', or '-nam' options will have slightly
 fewer lines than the fixed-up output because of removal of lines with
 only machine code, but without any mnemonics.
 
+-----
+
+$ make static-test
+
+runs against an included objdump output and diffs against included files
+of expected script output

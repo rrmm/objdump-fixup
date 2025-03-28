@@ -1,0 +1,206 @@
+
+testing:     file format elf64-x86-64
+
+
+Disassembly of section .init:
+
+0000000000001000 <_init>:
+    1000:	endbr64 
+    1004:	sub    $0x8,%rsp
+    1008:	mov    0x2fd9(%rip),%rax        # 3fe8 <__gmon_start__@Base>
+    100f:	test   %rax,%rax
+    1012:	je     .L0000 <_init+0x16> 1016
+    1014:	call   *%rax
+.L0000:
+    1016:	add    $0x8,%rsp
+    101a:	ret    
+
+Disassembly of section .plt:
+
+0000000000001020 <.plt>:
+.L0001:
+    1020:	push   0x2f92(%rip)        # .L0012 <_GLOBAL_OFFSET_TABLE_+0x8> 3fb8
+    1026:	bnd jmp *0x2f93(%rip)        # .L0013 <_GLOBAL_OFFSET_TABLE_+0x10> 3fc0
+    102d:	nopl   (%rax)
+    1030:	endbr64 
+    1034:	push   $0x0
+    1039:	bnd jmp .L0001 <_init+0x20> 1020
+    103f:	nop
+    1040:	endbr64 
+    1044:	push   $0x1
+    1049:	bnd jmp .L0001 <_init+0x20> 1020
+    104f:	nop
+
+Disassembly of section .plt.got:
+
+0000000000001050 <__cxa_finalize@plt>:
+    1050:	endbr64 
+    1054:	bnd jmp *0x2f9d(%rip)        # 3ff8 <__cxa_finalize@GLIBC_2.2.5>
+    105b:	nopl   0x0(%rax,%rax,1)
+
+Disassembly of section .plt.sec:
+
+0000000000001060 <puts@plt>:
+    1060:	endbr64 
+    1064:	bnd jmp *0x2f5d(%rip)        # 3fc8 <puts@GLIBC_2.2.5>
+    106b:	nopl   0x0(%rax,%rax,1)
+
+0000000000001070 <printf@plt>:
+    1070:	endbr64 
+    1074:	bnd jmp *0x2f55(%rip)        # 3fd0 <printf@GLIBC_2.2.5>
+    107b:	nopl   0x0(%rax,%rax,1)
+
+Disassembly of section .text:
+
+0000000000001080 <_start>:
+    1080:	endbr64 
+    1084:	xor    %ebp,%ebp
+    1086:	mov    %rdx,%r9
+    1089:	pop    %rsi
+    108a:	mov    %rsp,%rdx
+    108d:	and    $0xfffffffffffffff0,%rsp
+    1091:	push   %rax
+    1092:	push   %rsp
+    1093:	xor    %r8d,%r8d
+    1096:	xor    %ecx,%ecx
+    1098:	lea    0x134(%rip),%rdi        # 11d3 <main>
+    109f:	call   *0x2f33(%rip)        # 3fd8 <__libc_start_main@GLIBC_2.34>
+    10a5:	hlt    
+    10a6:	cs nopw 0x0(%rax,%rax,1)
+
+00000000000010b0 <deregister_tm_clones>:
+    10b0:	lea    0x2f59(%rip),%rdi        # 4010 <__TMC_END__>
+    10b7:	lea    0x2f52(%rip),%rax        # 4010 <__TMC_END__>
+    10be:	cmp    %rdi,%rax
+    10c1:	je     .L0002 <deregister_tm_clones+0x28> 10d8
+    10c3:	mov    0x2f16(%rip),%rax        # 3fe0 <_ITM_deregisterTMCloneTable@Base>
+    10ca:	test   %rax,%rax
+    10cd:	je     .L0002 <deregister_tm_clones+0x28> 10d8
+    10cf:	jmp    *%rax
+    10d1:	nopl   0x0(%rax)
+.L0002:
+    10d8:	ret    
+    10d9:	nopl   0x0(%rax)
+
+00000000000010e0 <register_tm_clones>:
+    10e0:	lea    0x2f29(%rip),%rdi        # 4010 <__TMC_END__>
+    10e7:	lea    0x2f22(%rip),%rsi        # 4010 <__TMC_END__>
+    10ee:	sub    %rdi,%rsi
+    10f1:	mov    %rsi,%rax
+    10f4:	shr    $0x3f,%rsi
+    10f8:	sar    $0x3,%rax
+    10fc:	add    %rax,%rsi
+    10ff:	sar    %rsi
+    1102:	je     .L0003 <register_tm_clones+0x38> 1118
+    1104:	mov    0x2ee5(%rip),%rax        # 3ff0 <_ITM_registerTMCloneTable@Base>
+    110b:	test   %rax,%rax
+    110e:	je     .L0003 <register_tm_clones+0x38> 1118
+    1110:	jmp    *%rax
+    1112:	nopw   0x0(%rax,%rax,1)
+.L0003:
+    1118:	ret    
+    1119:	nopl   0x0(%rax)
+
+0000000000001120 <__do_global_dtors_aux>:
+    1120:	endbr64 
+    1124:	cmpb   $0x0,0x2ee5(%rip)        # 4010 <__TMC_END__>
+    112b:	jne    .L0005 <__do_global_dtors_aux+0x38> 1158
+    112d:	push   %rbp
+    112e:	cmpq   $0x0,0x2ec2(%rip)        # 3ff8 <__cxa_finalize@GLIBC_2.2.5>
+    1136:	mov    %rsp,%rbp
+    1139:	je     .L0004 <__do_global_dtors_aux+0x27> 1147
+    113b:	mov    0x2ec6(%rip),%rdi        # 4008 <__dso_handle>
+    1142:	call   1050 <__cxa_finalize@plt>
+.L0004:
+    1147:	call   10b0 <deregister_tm_clones>
+    114c:	movb   $0x1,0x2ebd(%rip)        # 4010 <__TMC_END__>
+    1153:	pop    %rbp
+    1154:	ret    
+    1155:	nopl   (%rax)
+.L0005:
+    1158:	ret    
+    1159:	nopl   0x0(%rax)
+
+0000000000001160 <frame_dummy>:
+    1160:	endbr64 
+    1164:	jmp    10e0 <register_tm_clones>
+
+0000000000001169 <fib>:
+    1169:	endbr64 
+    116d:	push   %rbp
+    116e:	mov    %rsp,%rbp
+    1171:	sub    $0x10,%rsp
+    1175:	mov    %edi,-0x4(%rbp)
+    1178:	cmpl   $0x1,-0x4(%rbp)
+    117c:	jg     .L0006 <fib+0x1c> 1185
+    117e:	mov    $0x1,%eax
+    1183:	jmp    .L0007 <fib+0x2d> 1196
+.L0006:
+    1185:	mov    -0x4(%rbp),%eax
+    1188:	sub    $0x1,%eax
+    118b:	mov    %eax,%edi
+    118d:	call   1169 <fib>
+    1192:	imul   -0x4(%rbp),%eax
+.L0007:
+    1196:	leave  
+    1197:	ret    
+
+0000000000001198 <func_A>:
+    1198:	endbr64 
+    119c:	push   %rbp
+    119d:	mov    %rsp,%rbp
+    11a0:	sub    $0x10,%rsp
+    11a4:	movl   $0x5,-0x4(%rbp)
+    11ab:	mov    -0x4(%rbp),%eax
+    11ae:	mov    %eax,%edi
+    11b0:	call   1169 <fib>
+    11b5:	mov    %eax,%edx
+    11b7:	mov    -0x4(%rbp),%eax
+    11ba:	mov    %eax,%esi
+    11bc:	lea    0xe41(%rip),%rax        # .L0010 <_IO_stdin_used+0x4> 2004
+    11c3:	mov    %rax,%rdi
+    11c6:	mov    $0x0,%eax
+    11cb:	call   1070 <printf@plt>
+    11d0:	nop
+    11d1:	leave  
+    11d2:	ret    
+
+00000000000011d3 <main>:
+    11d3:	endbr64 
+    11d7:	push   %rbp
+    11d8:	mov    %rsp,%rbp
+    11db:	sub    $0x20,%rsp
+    11df:	mov    %edi,-0x14(%rbp)
+    11e2:	mov    %rsi,-0x20(%rbp)
+    11e6:	mov    $0x0,%eax
+    11eb:	call   1198 <func_A>
+    11f0:	lea    0xe23(%rip),%rax        # .L0011 <_IO_stdin_used+0x1a> 201a
+    11f7:	mov    %rax,%rdi
+    11fa:	call   1060 <puts@plt>
+    11ff:	movl   $0x0,-0x4(%rbp)
+    1206:	jmp    .L0009 <main+0x58> 122b
+.L0008:
+    1208:	mov    -0x4(%rbp),%eax
+    120b:	cltq   
+    120d:	lea    0x0(,%rax,8),%rdx
+    1215:	mov    -0x20(%rbp),%rax
+    1219:	add    %rdx,%rax
+    121c:	mov    (%rax),%rax
+    121f:	mov    %rax,%rdi
+    1222:	call   1060 <puts@plt>
+    1227:	addl   $0x1,-0x4(%rbp)
+.L0009:
+    122b:	mov    -0x4(%rbp),%eax
+    122e:	cmp    -0x14(%rbp),%eax
+    1231:	jl     .L0008 <main+0x35> 1208
+    1233:	mov    $0x0,%eax
+    1238:	leave  
+    1239:	ret    
+
+Disassembly of section .fini:
+
+000000000000123c <_fini>:
+    123c:	endbr64 
+    1240:	sub    $0x8,%rsp
+    1244:	add    $0x8,%rsp
+    1248:	ret    
